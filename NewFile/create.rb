@@ -15,15 +15,15 @@ nf_open = "#{nf_open} -n"
 argv_file = ARGV[0]
 
 # 只有文件名，就拼接默认目录
-path = File.basename(argv_file) == argv_file ? File.join(nf_dir) : argv_file
+path = File.basename(argv_file) == argv_file ? File.join(nf_dir, argv_file) : argv_file
+path = path.shellescape
 
 if File.exist?(path)
-  puts path
   system "#{nf_open} #{path}"
   return
 end
 
-extname = File.extname(file)
+extname = File.extname(path)
 tmpl_path = File.join(Dir.pwd, "tmpls", "tmpl#{extname}")
 
 # 如果有模板，拷贝模板
